@@ -864,10 +864,48 @@ function editSmall(prefix,idx,current){
   });
 }
 
-function simpanStandby(){
+async function simpanStandby(){
   if(!isAdmin)return;
   localStorage.setItem(KEY_STANDBY,JSON.stringify(standby));
-  alert('Data Standby Crew tersimpan! ✅');
+  try{
+    const r = await fetch(SUPABASE_URL+'/rest/v1/jadwal?id=eq.2',{
+      method:'PATCH',
+      headers:{
+        'apikey':SUPABASE_KEY,
+        'Authorization':'Bearer '+SUPABASE_KEY,
+        'Content-Type':'application/json',
+        'Prefer':'return=minimal'
+      },
+      body: JSON.stringify({data: JSON.stringify(standby)})
+    });
+    if(r.ok||r.status===204){
+      alert('Data Standby Crew tersimpan & sync ke server! ✅');
+    } else {
+      alert('Tersimpan lokal, gagal sync! Status: '+r.status);
+    }
+  }catch(e){
+    alert('Tersimpan lokal, error: '+e.message);
+  }
+}
+
+async function loadStandbyServer(){
+  try{
+    const r = await fetch(SUPABASE_URL+'/rest/v1/jadwal?id=eq.2&select=data',{
+      headers:{
+        'apikey':SUPABASE_KEY,
+        'Authorization':'Bearer '+SUPABASE_KEY
+      }
+    });
+    const rows = await r.json();
+    if(rows&&rows.length>0&&rows[0].data&&rows[0].data!=='[]'&&rows[0].data!=='{}'){
+      const d = JSON.parse(rows[0].data);
+      if(d&&typeof d==='object'&&Object.keys(d).length>0){
+        standby=d;
+        localStorage.setItem(KEY_STANDBY,JSON.stringify(standby));
+        renderStandby();
+      }
+    }
+  }catch(e){console.log('Standby load error:',e);}
 }
 
 // ═══════════ NAVEX ═══════════
