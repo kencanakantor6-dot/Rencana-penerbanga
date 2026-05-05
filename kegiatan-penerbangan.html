@@ -932,6 +932,71 @@ if(navexData.length === 0) {
   localStorage.setItem(KEY_NAVEX, JSON.stringify(navexData));
 }
 
+function editTgl(id, field, current){
+  if(!isAdmin) return;
+  // Use a date picker via input modal but with date type
+  const box = document.getElementById('inp-box');
+  const oldInput = document.getElementById('inp-field');
+  
+  // Temporarily change input to date type
+  oldInput.type = 'date';
+  oldInput.value = current || '';
+  
+  showInput('Pilih Tanggal', '', val=>{
+    oldInput.type = 'text'; // reset
+    const dateVal = document.getElementById('inp-field').type === 'date' ? 
+      document.getElementById('inp-field').value : val;
+    const e = navexData.find(x=>x.id===id);
+    if(e){ 
+      e[field] = current; // will be overridden below
+    }
+  });
+  
+  // Override with date input
+  document.getElementById('inp-field').type = 'date';
+  document.getElementById('inp-field').value = current || '';
+  document.getElementById('inp-title').textContent = 'Pilih Tanggal';
+  
+  inpCb = (val)=>{
+    const dateVal = document.getElementById('inp-field').value;
+    const e = navexData.find(x=>x.id===id);
+    if(e){ 
+      e[field] = dateVal;
+      localStorage.setItem(KEY_NAVEX, JSON.stringify(navexData));
+      renderNavex();
+    }
+    document.getElementById('inp-field').type = 'text';
+  };
+  inpDelCb = ()=>{
+    const e = navexData.find(x=>x.id===id);
+    if(e){ 
+      e[field] = '';
+      localStorage.setItem(KEY_NAVEX, JSON.stringify(navexData));
+      renderNavex();
+    }
+    document.getElementById('inp-field').type = 'text';
+  };
+  document.getElementById('inp-del-btn').style.display = current ? 'inline-flex' : 'none';
+}
+
+function editNama(id, current){
+  if(!isAdmin) return;
+  showInput('Edit Nama', current, val=>{
+    if(!val) return;
+    const e = navexData.find(x=>x.id===id);
+    if(e){ e.nama=val.toUpperCase(); localStorage.setItem(KEY_NAVEX,JSON.stringify(navexData)); renderNavex(); }
+  });
+}
+
+function editPangkat(id, current){
+  if(!isAdmin){return;}
+  showInput('Edit Pangkat', current, val=>{
+    if(!val) return;
+    const e = navexData.find(x=>x.id===id);
+    if(e){ e.pangkat=val; localStorage.setItem(KEY_NAVEX,JSON.stringify(navexData)); renderNavex(); }
+  });
+}
+
 function fmtDate(d){
   if(!d) return '-';
   const x=new Date(d+'T00:00:00');
@@ -968,13 +1033,13 @@ function renderNavex(){
     html += `<tr style="background:${rowColor};border-bottom:1px solid var(--border);">
       <td style="padding:8px 8px;color:var(--gray);font-size:0.8rem;text-align:center;">${no}</td>
       <td style="padding:8px 8px;font-size:0.8rem;color:var(--gray);">${e.group}</td>
-      <td style="padding:8px 8px;font-weight:600;color:var(--white);font-size:0.85rem;">${e.nama}</td>
-      <td style="padding:8px 8px;font-size:0.78rem;color:#a8b8d0;">${e.pangkat}</td>
+      <td style="padding:8px 8px;font-weight:600;color:var(--white);font-size:0.85rem;cursor:pointer;" onclick="editNama('${e.id}','${e.nama}')">${e.nama}</td>
+      <td style="padding:8px 8px;font-size:0.78rem;color:#a8b8d0;cursor:pointer;" onclick="editPangkat('${e.id}','${e.pangkat}')" title="Tap untuk edit">${e.pangkat||'<span style=\'color:var(--border)\'>tap edit</span>'}</td>
       <td style="padding:8px 8px;"><span style="font-family:Oswald,sans-serif;font-size:0.75rem;letter-spacing:1px;color:${spekColor};font-weight:700;">${e.spek}</span></td>
-      <td style="padding:8px 8px;text-align:center;font-size:0.78rem;color:#7ab3e0;">${fmtDate(e.d1)}</td>
-      <td style="padding:8px 8px;text-align:center;font-size:0.78rem;color:#7ab3e0;">${fmtDate(e.d2)}</td>
-      <td style="padding:8px 8px;text-align:center;font-size:0.78rem;color:#7ab3e0;">${fmtDate(e.d3)}</td>
-      <td style="padding:8px 8px;text-align:center;font-size:0.78rem;color:${daysSince>365?'#c0392b':daysSince>180?'#f5a623':'#2dc653'};font-weight:${e.d4?'700':'400'};">${fmtDate(e.d4)}</td>
+      <td style="padding:8px 8px;text-align:center;font-size:0.78rem;color:#7ab3e0;cursor:pointer;" onclick="editTgl('${e.id}','d1','${e.d1}')">${e.d1?fmtDate(e.d1):'<span style=\'color:var(--border)\'>+</span>'}</td>
+      <td style="padding:8px 8px;text-align:center;font-size:0.78rem;color:#7ab3e0;cursor:pointer;" onclick="editTgl('${e.id}','d2','${e.d2}')">${e.d2?fmtDate(e.d2):'<span style=\'color:var(--border)\'>+</span>'}</td>
+      <td style="padding:8px 8px;text-align:center;font-size:0.78rem;color:#7ab3e0;cursor:pointer;" onclick="editTgl('${e.id}','d3','${e.d3}')">${e.d3?fmtDate(e.d3):'<span style=\'color:var(--border)\'>+</span>'}</td>
+      <td style="padding:8px 8px;text-align:center;font-size:0.78rem;color:${daysSince>365?'#c0392b':daysSince>180?'#f5a623':'#2dc653'};font-weight:${e.d4?'700':'400'};cursor:pointer;" onclick="editTgl('${e.id}','d4','${e.d4}')">${e.d4?fmtDate(e.d4):'<span style=\'color:var(--border)\'>+</span>'}</td>
       <td class="td-act" style="text-align:center;padding:4px;">
         <button class="icon-btn" onclick="editNavexEntry('${e.id}')">&#9999;</button>
         <button class="icon-btn" onclick="hapusNavex('${e.id}')">&#128465;</button>
