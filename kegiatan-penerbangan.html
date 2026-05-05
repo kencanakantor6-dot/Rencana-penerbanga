@@ -549,10 +549,10 @@ function setSync(msg,color){
 async function loadServer(){
   setSync('⏳ Memuat...','#f5a623');
   try{
-    const r = await fetch(`${SUPABASE_URL}/rest/v1/jadwal?id=eq.1&select=data`, {
+    const r = await fetch(SUPABASE_URL+'/rest/v1/jadwal?id=eq.1&select=data', {
       headers: {
         'apikey': SUPABASE_KEY,
-        'Authorization': `Bearer ${SUPABASE_KEY}`
+        'Authorization': 'Bearer '+SUPABASE_KEY
       }
     });
     const rows = await r.json();
@@ -574,19 +574,23 @@ async function saveServer(){
   localStorage.setItem(KEY_JADWAL, JSON.stringify(jadwal));
   setSync('⏳ Menyimpan...','#f5a623');
   try{
-    await fetch(`${SUPABASE_URL}/rest/v1/jadwal?id=eq.1`, {
+    const r = await fetch(SUPABASE_URL+'/rest/v1/jadwal?id=eq.1', {
       method: 'PATCH',
       headers: {
         'apikey': SUPABASE_KEY,
-        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Authorization': 'Bearer '+SUPABASE_KEY,
         'Content-Type': 'application/json',
         'Prefer': 'return=minimal'
       },
       body: JSON.stringify({ data: JSON.stringify(jadwal) })
     });
-    setSync('✅ Tersimpan','#2dc653');
+    if(r.ok || r.status===204){
+      setSync('✅ Tersimpan','#2dc653');
+    } else {
+      setSync('⚠️ Error: '+r.status,'#c0392b');
+    }
   }catch(e){ 
-    setSync('⚠️ Gagal sync','#c0392b'); 
+    setSync('⚠️ Gagal: '+e.message,'#c0392b'); 
   }
 }
 
@@ -1126,11 +1130,11 @@ function hapusNavex(id){
 async function saveAbsensi() {
   localStorage.setItem(KEY_NAVEX, JSON.stringify(navexData));
   try {
-    await fetch(`${SUPABASE_URL}/rest/v1/jadwal?id=eq.2`, {
+    await fetch(SUPABASE_URL+'/rest/v1/jadwal?id=eq.2', {
       method: 'PATCH',
       headers: {
         'apikey': SUPABASE_KEY,
-        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Authorization': 'Bearer '+SUPABASE_KEY,
         'Content-Type': 'application/json',
         'Prefer': 'return=minimal'
       },
@@ -1141,10 +1145,10 @@ async function saveAbsensi() {
 
 async function loadAbsensi() {
   try {
-    const r = await fetch(`${SUPABASE_URL}/rest/v1/jadwal?id=eq.2&select=data`, {
+    const r = await fetch(SUPABASE_URL+'/rest/v1/jadwal?id=eq.2&select=data', {
       headers: {
         'apikey': SUPABASE_KEY,
-        'Authorization': `Bearer ${SUPABASE_KEY}`
+        'Authorization': 'Bearer '+SUPABASE_KEY
       }
     });
     const rows = await r.json();
