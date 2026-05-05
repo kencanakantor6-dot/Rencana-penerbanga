@@ -452,7 +452,7 @@ body.admin .add-btn{display:inline-block;}
 
 <script>
 // ═══════════ CONFIG ═══════════
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbxayrDbn84R8XbQoKjQssFkd6Rzp3zKdsaKfngyeTJljJgdEuuYklozk704EElRRFTrsw/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbxCLhrcCiHdmzEAPG042oQJvoGaH2Ci1PBghqRV9DMmw39VJhULPBTVnx3irOObtjvjbw/exec';
 const KEY_JADWAL = 'kencana_jadwal_v1';
 const KEY_STANDBY = 'kencana_standby_v1';
 const ADMIN_PW = 'kencanajaya';
@@ -544,17 +544,30 @@ function setSync(msg,color){
   if(el){el.textContent=msg;el.style.color=color||'#7ab3e0';}
 }
 
+function jsonp(url, cb) {
+  const id = 'cb_' + Date.now();
+  window[id] = function(data){ cb(data); delete window[id]; document.getElementById('jsonp-'+id)?.remove(); };
+  const s = document.createElement('script');
+  s.id = 'jsonp-' + id;
+  s.src = url + '&callback=' + id;
+  document.head.appendChild(s);
+  setTimeout(()=>{ if(window[id]){ cb(null); delete window[id]; } }, 5000);
+}
+
 async function loadServer(){
   setSync('⏳ Memuat...','#f5a623');
   try{
     const r = await fetch(GAS_URL+'?t='+Date.now());
-    const d = JSON.parse(await r.text());
+    const text = await r.text();
+    const d = JSON.parse(text);
     if(Array.isArray(d)&&d.length>0){
       jadwal=d;
       localStorage.setItem(KEY_JADWAL,JSON.stringify(jadwal));
     }
     setSync('✅ Online','#2dc653');
-  }catch(e){ setSync('📴 Offline','#f5a623'); }
+  }catch(e){ 
+    setSync('📴 Offline','#f5a623'); 
+  }
   renderTable();
 }
 
@@ -562,9 +575,14 @@ async function saveServer(){
   localStorage.setItem(KEY_JADWAL,JSON.stringify(jadwal));
   setSync('⏳ Menyimpan...','#f5a623');
   try{
-    await fetch(GAS_URL,{method:'POST',mode:'no-cors',body:JSON.stringify(jadwal),headers:{'Content-Type':'application/json'}});
+    const formData = new FormData();
+    formData.append('data', JSON.stringify(jadwal));
+    formData.append('type', 'jadwal');
+    await fetch(GAS_URL, {method:'POST', mode:'no-cors', body: JSON.stringify(jadwal), headers:{'Content-Type':'text/plain'}});
     setSync('✅ Tersimpan','#2dc653');
-  }catch(e){ setSync('⚠️ Gagal sync','#c0392b'); }
+  }catch(e){ 
+    setSync('⚠️ Gagal sync','#c0392b'); 
+  }
 }
 
 // ═══════════ JADWAL TABLE ═══════════
@@ -1106,7 +1124,7 @@ async function saveAbsensi() {
     await fetch(GAS_URL + '?type=absensi', {
       method: 'POST', mode: 'no-cors',
       body: JSON.stringify(navexData),
-      headers: {'Content-Type': 'application/json'}
+      headers: {'Content-Type': 'text/plain'}
     });
   } catch(e) { console.log('Absensi sync error:', e); }
 }
@@ -1114,7 +1132,8 @@ async function saveAbsensi() {
 async function loadAbsensi() {
   try {
     const r = await fetch(GAS_URL + '?type=absensi&t=' + Date.now());
-    const d = JSON.parse(await r.text());
+    const text = await r.text();
+    const d = JSON.parse(text);
     if (Array.isArray(d) && d.length > 0) {
       navexData = d;
       localStorage.setItem(KEY_NAVEX, JSON.stringify(navexData));
