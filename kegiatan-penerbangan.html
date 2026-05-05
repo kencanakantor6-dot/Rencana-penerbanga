@@ -683,11 +683,16 @@ function showInput(title,val,onOk,onDel){
   setTimeout(()=>document.getElementById('inp-field').focus(),100);
 }
 function okInput(){
-  const val=document.getElementById('inp-field').value.trim().toUpperCase();
+  const field = document.getElementById('inp-field');
+  const val = field.type === 'date' ? field.value : field.value.trim().toUpperCase();
   document.getElementById('inp-modal').classList.remove('on');
+  field.type = 'text';
   if(inpCb) inpCb(val);
 }
-function batalInput(){ document.getElementById('inp-modal').classList.remove('on'); }
+function batalInput(){ 
+  document.getElementById('inp-field').type = 'text';
+  document.getElementById('inp-modal').classList.remove('on'); 
+}
 function hapusInput(){
   document.getElementById('inp-modal').classList.remove('on');
   if(inpDelCb) inpDelCb();
@@ -935,49 +940,24 @@ if(navexData.length === 0) {
 
 function editTgl(id, field, current){
   if(!isAdmin) return;
-  // Use a date picker via input modal but with date type
-  const box = document.getElementById('inp-box');
-  const oldInput = document.getElementById('inp-field');
-  
-  // Temporarily change input to date type
-  oldInput.type = 'date';
-  oldInput.value = current || '';
-  
-  showInput('Pilih Tanggal', '', val=>{
-    oldInput.type = 'text'; // reset
-    const dateVal = document.getElementById('inp-field').type === 'date' ? 
-      document.getElementById('inp-field').value : val;
-    const e = navexData.find(x=>x.id===id);
-    if(e){ 
-      e[field] = current; // will be overridden below
-    }
-  });
-  
-  // Override with date input
-  document.getElementById('inp-field').type = 'date';
-  document.getElementById('inp-field').value = current || '';
+  const inpField = document.getElementById('inp-field');
+  inpField.type = 'date';
+  inpField.value = current || '';
   document.getElementById('inp-title').textContent = 'Pilih Tanggal';
+  document.getElementById('inp-del-btn').style.display = current ? 'inline-flex' : 'none';
+  document.getElementById('inp-modal').classList.add('on');
   
-  inpCb = (val)=>{
+  inpCb = ()=>{
     const dateVal = document.getElementById('inp-field').value;
     const e = navexData.find(x=>x.id===id);
-    if(e){ 
-      e[field] = dateVal;
-      localStorage.setItem(KEY_NAVEX, JSON.stringify(navexData));
-      renderNavex();
-    }
+    if(e){ e[field] = dateVal; saveAbsensi(); renderNavex(); }
     document.getElementById('inp-field').type = 'text';
   };
   inpDelCb = ()=>{
     const e = navexData.find(x=>x.id===id);
-    if(e){ 
-      e[field] = '';
-      localStorage.setItem(KEY_NAVEX, JSON.stringify(navexData));
-      renderNavex();
-    }
+    if(e){ e[field] = ''; saveAbsensi(); renderNavex(); }
     document.getElementById('inp-field').type = 'text';
   };
-  document.getElementById('inp-del-btn').style.display = current ? 'inline-flex' : 'none';
 }
 
 function resetAbsensiData(){
