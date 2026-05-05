@@ -213,7 +213,7 @@ body.admin .add-btn{display:inline-block;}
   <div class="sidebar-title">&#9992; KENCANA MAINTAINERS</div>
   <div class="nav-item on" id="nav-keg" onclick="showPage('keg')"><span>&#128203;</span> Kegiatan Penerbangan</div>
   <div class="nav-item" id="nav-sb" onclick="showPage('sb')"><span>&#128101;</span> Standby Crew</div>
-  <div class="nav-item" id="nav-nx" onclick="showPage('nx')"><span>&#9992;</span> NAVEX</div>
+  <div class="nav-item" id="nav-nx" onclick="showPage('nx')"><span>&#128203;</span> Absensi</div>
 </div>
 
 <!-- HEADER -->
@@ -321,7 +321,7 @@ body.admin .add-btn{display:inline-block;}
   <div style="padding:14px;">
     <div style="text-align:center;margin-bottom:14px;">
       <div style="font-size:0.72rem;color:var(--gray);letter-spacing:2px;">WING UDARA 1.1 — SKADRON UDARA 17</div>
-      <div style="font-family:Oswald,sans-serif;font-size:1.1rem;color:var(--red);letter-spacing:3px;font-weight:700;">DAFTAR NAVEX PERSONEL</div>
+      <div style="font-family:Oswald,sans-serif;font-size:1.1rem;color:var(--red);letter-spacing:3px;font-weight:700;">DAFTAR ABSENSI PERSONEL</div>
     </div>
 
     <!-- TOOLBAR -->
@@ -356,10 +356,10 @@ body.admin .add-btn{display:inline-block;}
             <th style="font-family:Oswald,sans-serif;font-size:0.75rem;color:white;padding:10px 8px;text-align:left;letter-spacing:1px;white-space:nowrap;">Nama</th>
             <th style="font-family:Oswald,sans-serif;font-size:0.75rem;color:white;padding:10px 8px;text-align:left;letter-spacing:1px;white-space:nowrap;">Pangkat</th>
             <th style="font-family:Oswald,sans-serif;font-size:0.75rem;color:white;padding:10px 8px;text-align:left;letter-spacing:1px;white-space:nowrap;">Spesialisasi</th>
-            <th style="font-family:Oswald,sans-serif;font-size:0.75rem;color:white;padding:10px 8px;text-align:center;letter-spacing:1px;white-space:nowrap;">Navex 1</th>
-            <th style="font-family:Oswald,sans-serif;font-size:0.75rem;color:white;padding:10px 8px;text-align:center;letter-spacing:1px;white-space:nowrap;">Navex 2</th>
-            <th style="font-family:Oswald,sans-serif;font-size:0.75rem;color:white;padding:10px 8px;text-align:center;letter-spacing:1px;white-space:nowrap;">Navex 3</th>
-            <th style="font-family:Oswald,sans-serif;font-size:0.75rem;color:white;padding:10px 8px;text-align:center;letter-spacing:1px;white-space:nowrap;">Navex 4</th>
+            <th style="font-family:Oswald,sans-serif;font-size:0.75rem;color:white;padding:10px 8px;text-align:center;letter-spacing:1px;white-space:nowrap;">VIP KASAU</th>
+            <th style="font-family:Oswald,sans-serif;font-size:0.75rem;color:white;padding:10px 8px;text-align:center;letter-spacing:1px;white-space:nowrap;">VIP MENHAN</th>
+            <th style="font-family:Oswald,sans-serif;font-size:0.75rem;color:white;padding:10px 8px;text-align:center;letter-spacing:1px;white-space:nowrap;">RI</th>
+            <th style="font-family:Oswald,sans-serif;font-size:0.75rem;color:white;padding:10px 8px;text-align:center;letter-spacing:1px;white-space:nowrap;">Navex</th>
             <th class="th-act" style="font-family:Oswald,sans-serif;font-size:0.75rem;color:white;padding:10px 8px;text-align:center;letter-spacing:1px;">Aksi</th>
           </tr>
         </thead>
@@ -372,7 +372,7 @@ body.admin .add-btn{display:inline-block;}
 <!-- MODAL NAVEX -->
 <div class="modal-bg" id="navex-modal">
   <div class="modal">
-    <h2 id="nx-modal-ttl">Tambah Personel Navex</h2>
+    <h2 id="nx-modal-ttl">Tambah Personel</h2>
     <div class="fg">
       <div class="ff full">
         <label>Kelompok</label>
@@ -395,10 +395,10 @@ body.admin .add-btn{display:inline-block;}
           <option value="KAL">Kal</option>
         </select>
       </div>
-      <div class="ff"><label>Navex 1 (tgl)</label><input type="date" id="nx-d1"></div>
-      <div class="ff"><label>Navex 2 (tgl)</label><input type="date" id="nx-d2"></div>
-      <div class="ff"><label>Navex 3 (tgl)</label><input type="date" id="nx-d3"></div>
-      <div class="ff"><label>Navex 4 (tgl)</label><input type="date" id="nx-d4"></div>
+      <div class="ff"><label>VIP KASAU (tgl)</label><input type="date" id="nx-d1"></div>
+      <div class="ff"><label>VIP MENHAN (tgl)</label><input type="date" id="nx-d2"></div>
+      <div class="ff"><label>RI (tgl)</label><input type="date" id="nx-d3"></div>
+      <div class="ff"><label>Navex (tgl)</label><input type="date" id="nx-d4"></div>
     </div>
     <div class="modal-btns">
       <button class="btn btn-out" onclick="closeNavexModal()">Batal</button>
@@ -530,7 +530,7 @@ function showPage(p){
   document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('on'));
   document.getElementById('page-'+p).classList.add('on');
   document.getElementById('nav-'+p).classList.add('on');
-  const titles = {keg:'Kegiatan Penerbangan', sb:'Standby Crew', nx:'NAVEX'};
+  const titles = {keg:'Kegiatan Penerbangan', sb:'Standby Crew', nx:'Absensi'};
   document.getElementById('page-sub').textContent = titles[p]||'';
   if(p==='sb') renderStandby();
   if(p==='nx') renderNavex();
@@ -848,82 +848,82 @@ const SPEK_COLOR = {ENGINE:'#c0392b', AIRFRAME:'#2980b9', LISTMENT:'#27ae60', SK
 if(navexData.length === 0) {
   navexData = [
     // JURU MUDI UDARA 1
-    {id:genId(),group:'Juru Mudi Udara 1',nama:'MASUD',pangkat:'Lettu Tek',spek:'ENGINE',d1:'2022-03-02',d2:'2022-11-10',d3:'2024-07-20',d4:'2024-09-03'},
-    {id:genId(),group:'Juru Mudi Udara 1',nama:'AGUS D',pangkat:'Lettu Tek',spek:'LISTMENT',d1:'2021-12-11',d2:'2023-06-16',d3:'2024-07-01',d4:'2024-09-23'},
-    {id:genId(),group:'Juru Mudi Udara 1',nama:'YUSUF M',pangkat:'Peltu',spek:'AIRFRAME',d1:'2021-10-16',d2:'2023-03-04',d3:'',d4:''},
-    {id:genId(),group:'Juru Mudi Udara 1',nama:'SUPARNO',pangkat:'Letda Tek',spek:'AIRFRAME',d1:'2022-09-03',d2:'2021-06-10',d3:'2024-07-20',d4:''},
-    {id:genId(),group:'Juru Mudi Udara 1',nama:'AFANDI',pangkat:'Letda Tek',spek:'ENGINE',d1:'2022-09-03',d2:'2023-12-10',d3:'2024-06-15',d4:'2024-11-09'},
-    {id:genId(),group:'Juru Mudi Udara 1',nama:'SETIYO',pangkat:'Letda Tek',spek:'LISTMENT',d1:'2021-05-24',d2:'2023-06-03',d3:'2024-04-26',d4:'2024-09-21'},
-    {id:genId(),group:'Juru Mudi Udara 1',nama:'KHOLILI',pangkat:'Serma',spek:'ENGINE',d1:'2021-10-16',d2:'',d3:'',d4:''},
-    {id:genId(),group:'Juru Mudi Udara 1',nama:'JIMMY M',pangkat:'Letda Tek',spek:'LISTMENT',d1:'2021-10-09',d2:'',d3:'',d4:''},
-    {id:genId(),group:'Juru Mudi Udara 1',nama:'SUHENDRA',pangkat:'Serma',spek:'ENGINE',d1:'2022-03-02',d2:'2023-06-03',d3:'2024-05-17',d4:'2024-08-21'},
-    {id:genId(),group:'Juru Mudi Udara 1',nama:'AMIN',pangkat:'Serka',spek:'LISTMENT',d1:'2022-08-27',d2:'2023-08-16',d3:'2024-05-28',d4:'2024-11-09'},
-    {id:genId(),group:'Juru Mudi Udara 1',nama:'JUMARDI',pangkat:'Serka',spek:'AIRFRAME',d1:'2022-08-27',d2:'2023-08-16',d3:'2024-08-28',d4:'2024-06-19'},
-    {id:genId(),group:'Juru Mudi Udara 1',nama:'YOYO S',pangkat:'Kapten Tek',spek:'SKATEK',d1:'2020-11-17',d2:'2023-02-18',d3:'2024-08-28',d4:''},
-    {id:genId(),group:'Juru Mudi Udara 1',nama:'RUSLAN',pangkat:'Kapten Tek',spek:'SKATEK',d1:'2021-10-09',d2:'',d3:'2024-02-08',d4:''},
+    {id:genId(),group:'Juru Mudi Udara 1',nama:'MASUD',pangkat:'Lettu Tek',spek:'ENGINE',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Juru Mudi Udara 1',nama:'AGUS D',pangkat:'Lettu Tek',spek:'LISTMENT',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Juru Mudi Udara 1',nama:'YUSUF M',pangkat:'Peltu',spek:'AIRFRAME',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Juru Mudi Udara 1',nama:'SUPARNO',pangkat:'Letda Tek',spek:'AIRFRAME',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Juru Mudi Udara 1',nama:'AFANDI',pangkat:'Letda Tek',spek:'ENGINE',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Juru Mudi Udara 1',nama:'SETIYO',pangkat:'Letda Tek',spek:'LISTMENT',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Juru Mudi Udara 1',nama:'KHOLILI',pangkat:'Serma',spek:'ENGINE',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Juru Mudi Udara 1',nama:'JIMMY M',pangkat:'Letda Tek',spek:'LISTMENT',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Juru Mudi Udara 1',nama:'SUHENDRA',pangkat:'Serma',spek:'ENGINE',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Juru Mudi Udara 1',nama:'AMIN',pangkat:'Serka',spek:'LISTMENT',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Juru Mudi Udara 1',nama:'JUMARDI',pangkat:'Serka',spek:'AIRFRAME',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Juru Mudi Udara 1',nama:'YOYO S',pangkat:'Kapten Tek',spek:'SKATEK',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Juru Mudi Udara 1',nama:'RUSLAN',pangkat:'Kapten Tek',spek:'SKATEK',d1:'',d2:'',d3:'',d4:''},
     // JURU MUDI UDARA 2
-    {id:genId(),group:'Juru Mudi Udara 2',nama:'PRIYO',pangkat:'Letda Tek',spek:'AIRFRAME',d1:'2021-10-16',d2:'2023-06-03',d3:'2024-06-15',d4:'2025-04-25'},
-    {id:genId(),group:'Juru Mudi Udara 2',nama:'ANDUNG',pangkat:'Serma',spek:'AIRFRAME',d1:'2021-07-02',d2:'2024-08-08',d3:'2024-07-02',d4:''},
-    {id:genId(),group:'Juru Mudi Udara 2',nama:'ADI F',pangkat:'Serka',spek:'ENGINE',d1:'2022-08-27',d2:'2023-12-10',d3:'2024-09-19',d4:''},
-    {id:genId(),group:'Juru Mudi Udara 2',nama:'LUKMAN',pangkat:'Serka',spek:'ENGINE',d1:'2021-12-11',d2:'2022-11-10',d3:'2024-04-05',d4:'2024-10-07'},
-    {id:genId(),group:'Juru Mudi Udara 2',nama:'SUGENG',pangkat:'Serka',spek:'ENGINE',d1:'2022-03-09',d2:'2023-06-16',d3:'2024-07-04',d4:'2025-02-10'},
-    {id:genId(),group:'Juru Mudi Udara 2',nama:'HAFID',pangkat:'Serka',spek:'LISTMENT',d1:'2021-07-19',d2:'',d3:'',d4:''},
-    {id:genId(),group:'Juru Mudi Udara 2',nama:'RYAN',pangkat:'Serka',spek:'LISTMENT',d1:'2021-12-11',d2:'2022-11-10',d3:'2024-08-01',d4:'2024-08-21'},
-    {id:genId(),group:'Juru Mudi Udara 2',nama:'HERMAN',pangkat:'Sertu',spek:'LISTMENT',d1:'2021-09-04',d2:'2023-02-18',d3:'2024-05-27',d4:'2024-09-05'},
-    {id:genId(),group:'Juru Mudi Udara 2',nama:'KATON',pangkat:'Sertu',spek:'AIRFRAME',d1:'2021-05-24',d2:'2023-04-03',d3:'2024-06-04',d4:'2025-05-12'},
-    {id:genId(),group:'Juru Mudi Udara 2',nama:'DONI',pangkat:'Sertu',spek:'AIRFRAME',d1:'2022-03-02',d2:'',d3:'2024-04-05',d4:'2024-08-28'},
-    {id:genId(),group:'Juru Mudi Udara 2',nama:'DIKI',pangkat:'Sertu',spek:'ENGINE',d1:'2020-08-07',d2:'2023-02-18',d3:'2024-08-28',d4:'2024-11-04'},
-    {id:genId(),group:'Juru Mudi Udara 2',nama:'YUDO',pangkat:'Sertu',spek:'LISTMENT',d1:'2021-10-09',d2:'2023-12-10',d3:'2024-06-30',d4:'2023-02-25'},
-    {id:genId(),group:'Juru Mudi Udara 2',nama:'ANDIK',pangkat:'Serda',spek:'ENGINE',d1:'2021-05-24',d2:'2023-04-03',d3:'2024-06-30',d4:'2025-03-04'},
-    {id:genId(),group:'Juru Mudi Udara 2',nama:'HIDAYAT',pangkat:'Sertu',spek:'AIRFRAME',d1:'2024-04-26',d2:'2024-07-01',d3:'2025-07-25',d4:''},
-    {id:genId(),group:'Juru Mudi Udara 2',nama:'YOGI',pangkat:'Sertu',spek:'AIRFRAME',d1:'2020-10-22',d2:'2023-08-16',d3:'',d4:''},
-    {id:genId(),group:'Juru Mudi Udara 2',nama:'EKO S',pangkat:'Koptu',spek:'ENGINE',d1:'2020-08-12',d2:'2023-02-18',d3:'2024-08-28',d4:'2025-03-01'},
-    {id:genId(),group:'Juru Mudi Udara 2',nama:'ALFA',pangkat:'Serka',spek:'LISTMENT',d1:'2020-10-23',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Juru Mudi Udara 2',nama:'PRIYO',pangkat:'Letda Tek',spek:'AIRFRAME',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Juru Mudi Udara 2',nama:'ANDUNG',pangkat:'Serma',spek:'AIRFRAME',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Juru Mudi Udara 2',nama:'ADI F',pangkat:'Serka',spek:'ENGINE',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Juru Mudi Udara 2',nama:'LUKMAN',pangkat:'Serka',spek:'ENGINE',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Juru Mudi Udara 2',nama:'SUGENG',pangkat:'Serka',spek:'ENGINE',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Juru Mudi Udara 2',nama:'HAFID',pangkat:'Serka',spek:'LISTMENT',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Juru Mudi Udara 2',nama:'RYAN',pangkat:'Serka',spek:'LISTMENT',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Juru Mudi Udara 2',nama:'HERMAN',pangkat:'Sertu',spek:'LISTMENT',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Juru Mudi Udara 2',nama:'KATON',pangkat:'Sertu',spek:'AIRFRAME',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Juru Mudi Udara 2',nama:'DONI',pangkat:'Sertu',spek:'AIRFRAME',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Juru Mudi Udara 2',nama:'DIKI',pangkat:'Sertu',spek:'ENGINE',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Juru Mudi Udara 2',nama:'YUDO',pangkat:'Sertu',spek:'LISTMENT',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Juru Mudi Udara 2',nama:'ANDIK',pangkat:'Serda',spek:'ENGINE',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Juru Mudi Udara 2',nama:'HIDAYAT',pangkat:'Sertu',spek:'AIRFRAME',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Juru Mudi Udara 2',nama:'YOGI',pangkat:'Sertu',spek:'AIRFRAME',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Juru Mudi Udara 2',nama:'EKO S',pangkat:'Koptu',spek:'ENGINE',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Juru Mudi Udara 2',nama:'ALFA',pangkat:'Serka',spek:'LISTMENT',d1:'',d2:'',d3:'',d4:''},
     {id:genId(),group:'Juru Mudi Udara 2',nama:'SIGIT',pangkat:'Serma',spek:'SKATEK',d1:'',d2:'',d3:'',d4:''},
     {id:genId(),group:'Juru Mudi Udara 2',nama:'WAWAN',pangkat:'Sertu',spek:'SKATEK',d1:'',d2:'',d3:'',d4:''},
-    {id:genId(),group:'Juru Mudi Udara 2',nama:'SUSANTO',pangkat:'Sertu',spek:'SKATEK',d1:'2020-12-08',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Juru Mudi Udara 2',nama:'SUSANTO',pangkat:'Sertu',spek:'SKATEK',d1:'',d2:'',d3:'',d4:''},
     // LOADMASTER
-    {id:genId(),group:'Loadmaster',nama:'EXAN',pangkat:'LM',spek:'AIRFRAME',d1:'2021-10-09',d2:'',d3:'2024-07-30',d4:'2023-04-25'},
-    {id:genId(),group:'Loadmaster',nama:'SUHARYANTO',pangkat:'LM',spek:'LISTMENT',d1:'2022-09-03',d2:'',d3:'2024-06-30',d4:'2025-09-10'},
-    {id:genId(),group:'Loadmaster',nama:'KOMARUDIN',pangkat:'LM',spek:'KAL',d1:'2021-07-02',d2:'2023-04-03',d3:'2024-09-08',d4:'2025-03-01'},
-    {id:genId(),group:'Loadmaster',nama:'AGUS N',pangkat:'LM',spek:'ENGINE',d1:'2022-08-27',d2:'2023-12-10',d3:'2024-08-31',d4:''},
-    {id:genId(),group:'Loadmaster',nama:'NONO',pangkat:'LM',spek:'AIRFRAME',d1:'2021-10-16',d2:'2022-11-10',d3:'2024-08-28',d4:'2024-09-02'},
-    {id:genId(),group:'Loadmaster',nama:'SARNO',pangkat:'LM',spek:'AIRFRAME',d1:'2021-05-24',d2:'2023-06-03',d3:'2024-06-13',d4:'2021-11-04'},
-    {id:genId(),group:'Loadmaster',nama:'RISWANTORO',pangkat:'LM',spek:'LISTMENT',d1:'2021-09-04',d2:'2023-08-16',d3:'2024-06-04',d4:'2024-09-21'},
-    {id:genId(),group:'Loadmaster',nama:'BUDI R',pangkat:'LM',spek:'LISTMENT',d1:'2021-07-19',d2:'2023-06-16',d3:'2024-05-17',d4:'2024-08-28'},
-    {id:genId(),group:'Loadmaster',nama:'GANDUNG',pangkat:'LM',spek:'ENGINE',d1:'2022-03-02',d2:'',d3:'2024-07-03',d4:''},
-    {id:genId(),group:'Loadmaster',nama:'KADEK',pangkat:'LM',spek:'KAL',d1:'2021-12-11',d2:'',d3:'2024-08-02',d4:'2024-04-26'},
-    {id:genId(),group:'Loadmaster',nama:'CANDRA',pangkat:'LM',spek:'KAL',d1:'2023-02-20',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Loadmaster',nama:'EXAN',pangkat:'LM',spek:'AIRFRAME',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Loadmaster',nama:'SUHARYANTO',pangkat:'LM',spek:'LISTMENT',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Loadmaster',nama:'KOMARUDIN',pangkat:'LM',spek:'KAL',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Loadmaster',nama:'AGUS N',pangkat:'LM',spek:'ENGINE',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Loadmaster',nama:'NONO',pangkat:'LM',spek:'AIRFRAME',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Loadmaster',nama:'SARNO',pangkat:'LM',spek:'AIRFRAME',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Loadmaster',nama:'RISWANTORO',pangkat:'LM',spek:'LISTMENT',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Loadmaster',nama:'BUDI R',pangkat:'LM',spek:'LISTMENT',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Loadmaster',nama:'GANDUNG',pangkat:'LM',spek:'ENGINE',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Loadmaster',nama:'KADEK',pangkat:'LM',spek:'KAL',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Loadmaster',nama:'CANDRA',pangkat:'LM',spek:'KAL',d1:'',d2:'',d3:'',d4:''},
     // GROUND CREW
-    {id:genId(),group:'Ground Crew',nama:'SOFYAN',pangkat:'Serka',spek:'ENGINE',d1:'2023-02-20',d2:'',d3:'2024-03-09',d4:''},
-    {id:genId(),group:'Ground Crew',nama:'PANJI',pangkat:'Sertu',spek:'ENGINE',d1:'2023-06-03',d2:'',d3:'',d4:''},
-    {id:genId(),group:'Ground Crew',nama:'FAUZI ABENK',pangkat:'Sertu',spek:'LISTMENT',d1:'2023-06-03',d2:'',d3:'',d4:''},
-    {id:genId(),group:'Ground Crew',nama:'YOSI',pangkat:'Serda',spek:'LISTMENT',d1:'2021-10-09',d2:'',d3:'2024-07-02',d4:''},
-    {id:genId(),group:'Ground Crew',nama:'EKA N',pangkat:'Praka',spek:'AIRFRAME',d1:'2022-11-10',d2:'2023-12-10',d3:'2024-07-30',d4:'2025-02-10'},
-    {id:genId(),group:'Ground Crew',nama:'VIKSON',pangkat:'Praka',spek:'AIRFRAME',d1:'2021-05-24',d2:'2023-12-10',d3:'2024-10-07',d4:''},
-    {id:genId(),group:'Ground Crew',nama:'PUTRA',pangkat:'Praka',spek:'AIRFRAME',d1:'2021-05-24',d2:'',d3:'2024-04-26',d4:'2024-10-07'},
-    {id:genId(),group:'Ground Crew',nama:'GATOT DC',pangkat:'Praka',spek:'ENGINE',d1:'2020-12-08',d2:'2023-12-10',d3:'2024-09-21',d4:''},
-    {id:genId(),group:'Ground Crew',nama:'TAUFIK',pangkat:'Praka',spek:'ENGINE',d1:'2020-10-02',d2:'2023-06-16',d3:'2024-09-03',d4:''},
-    {id:genId(),group:'Ground Crew',nama:'UMAM',pangkat:'Praka',spek:'ENGINE',d1:'2021-07-02',d2:'',d3:'2024-05-04',d4:'2024-11-09'},
-    {id:genId(),group:'Ground Crew',nama:'ERWAN',pangkat:'Pratu',spek:'LISTMENT',d1:'2021-07-19',d2:'',d3:'2024-04-26',d4:'2024-09-21'},
-    {id:genId(),group:'Ground Crew',nama:'SAHRUDIN',pangkat:'Pratu',spek:'LISTMENT',d1:'2021-09-04',d2:'',d3:'2024-07-06',d4:'2025-07-02'},
-    {id:genId(),group:'Ground Crew',nama:'ROZAK',pangkat:'Pratu',spek:'LISTMENT',d1:'2021-05-18',d2:'',d3:'2024-06-08',d4:''},
-    {id:genId(),group:'Ground Crew',nama:'KEVIN',pangkat:'Pratu',spek:'AIRFRAME',d1:'2023-03-04',d2:'',d3:'2024-08-21',d4:''},
-    {id:genId(),group:'Ground Crew',nama:'YULIO',pangkat:'Partu',spek:'ENGINE',d1:'2022-09-03',d2:'',d3:'2024-08-20',d4:''},
-    {id:genId(),group:'Ground Crew',nama:'AFIF',pangkat:'Partu',spek:'ENGINE',d1:'2020-08-20',d2:'',d3:'2025-03-07',d4:''},
-    {id:genId(),group:'Ground Crew',nama:'RAMLAN',pangkat:'Partu',spek:'ENGINE',d1:'2022-11-10',d2:'',d3:'2024-08-06',d4:''},
-    {id:genId(),group:'Ground Crew',nama:'ZAINAL',pangkat:'Pratu',spek:'LISTMENT',d1:'2020-09-21',d2:'',d3:'2024-05-17',d4:'2025-04-25'},
-    {id:genId(),group:'Ground Crew',nama:'ADI P',pangkat:'Pratu',spek:'AIRFRAME',d1:'2021-10-09',d2:'',d3:'',d4:''},
-    {id:genId(),group:'Ground Crew',nama:'ASEP',pangkat:'Pratu',spek:'LISTMENT',d1:'2020-10-23',d2:'',d3:'2024-07-30',d4:'2025-05-15'},
-    {id:genId(),group:'Ground Crew',nama:'YOAN',pangkat:'Pratu',spek:'LISTMENT',d1:'2020-08-07',d2:'2023-08-16',d3:'2024-11-09',d4:''},
-    {id:genId(),group:'Ground Crew',nama:'IDHAR',pangkat:'Pratu',spek:'AIRFRAME',d1:'2020-08-20',d2:'',d3:'2024-02-08',d4:'2025-02-10'},
-    {id:genId(),group:'Ground Crew',nama:'FAJAR SAFIRIN',pangkat:'Pratu',spek:'AIRFRAME',d1:'2021-12-11',d2:'',d3:'2024-06-08',d4:'2025-03-04'},
-    {id:genId(),group:'Ground Crew',nama:'IMAM',pangkat:'Pratu',spek:'AIRFRAME',d1:'2020-09-21',d2:'',d3:'2024-05-17',d4:'2025-05-01'},
-    {id:genId(),group:'Ground Crew',nama:'SALIM',pangkat:'Pratu',spek:'LISTMENT',d1:'2022-02-03',d2:'',d3:'2024-07-30',d4:''},
-    {id:genId(),group:'Ground Crew',nama:'DWI AJI',pangkat:'Pratu',spek:'AIRFRAME',d1:'2024-05-04',d2:'',d3:'',d4:''},
-    {id:genId(),group:'Ground Crew',nama:'ANAS',pangkat:'Pratu',spek:'AIRFRAME',d1:'2024-02-08',d2:'',d3:'2025-03-04',d4:''},
-    {id:genId(),group:'Ground Crew',nama:'BOWO',pangkat:'Pratu',spek:'ENGINE',d1:'2021-10-16',d2:'',d3:'2024-06-15',d4:''},
-    {id:genId(),group:'Ground Crew',nama:'PONDA',pangkat:'Pratu',spek:'ENGINE',d1:'2022-08-27',d2:'',d3:'2024-08-28',d4:''},
+    {id:genId(),group:'Ground Crew',nama:'SOFYAN',pangkat:'Serka',spek:'ENGINE',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Ground Crew',nama:'PANJI',pangkat:'Sertu',spek:'ENGINE',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Ground Crew',nama:'FAUZI ABENK',pangkat:'Sertu',spek:'LISTMENT',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Ground Crew',nama:'YOSI',pangkat:'Serda',spek:'LISTMENT',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Ground Crew',nama:'EKA N',pangkat:'Praka',spek:'AIRFRAME',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Ground Crew',nama:'VIKSON',pangkat:'Praka',spek:'AIRFRAME',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Ground Crew',nama:'PUTRA',pangkat:'Praka',spek:'AIRFRAME',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Ground Crew',nama:'GATOT DC',pangkat:'Praka',spek:'ENGINE',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Ground Crew',nama:'TAUFIK',pangkat:'Praka',spek:'ENGINE',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Ground Crew',nama:'UMAM',pangkat:'Praka',spek:'ENGINE',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Ground Crew',nama:'ERWAN',pangkat:'Pratu',spek:'LISTMENT',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Ground Crew',nama:'SAHRUDIN',pangkat:'Pratu',spek:'LISTMENT',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Ground Crew',nama:'ROZAK',pangkat:'Pratu',spek:'LISTMENT',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Ground Crew',nama:'KEVIN',pangkat:'Pratu',spek:'AIRFRAME',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Ground Crew',nama:'YULIO',pangkat:'Partu',spek:'ENGINE',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Ground Crew',nama:'AFIF',pangkat:'Partu',spek:'ENGINE',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Ground Crew',nama:'RAMLAN',pangkat:'Partu',spek:'ENGINE',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Ground Crew',nama:'ZAINAL',pangkat:'Pratu',spek:'LISTMENT',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Ground Crew',nama:'ADI P',pangkat:'Pratu',spek:'AIRFRAME',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Ground Crew',nama:'ASEP',pangkat:'Pratu',spek:'LISTMENT',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Ground Crew',nama:'YOAN',pangkat:'Pratu',spek:'LISTMENT',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Ground Crew',nama:'IDHAR',pangkat:'Pratu',spek:'AIRFRAME',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Ground Crew',nama:'FAJAR SAFIRIN',pangkat:'Pratu',spek:'AIRFRAME',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Ground Crew',nama:'IMAM',pangkat:'Pratu',spek:'AIRFRAME',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Ground Crew',nama:'SALIM',pangkat:'Pratu',spek:'LISTMENT',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Ground Crew',nama:'DWI AJI',pangkat:'Pratu',spek:'AIRFRAME',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Ground Crew',nama:'ANAS',pangkat:'Pratu',spek:'AIRFRAME',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Ground Crew',nama:'BOWO',pangkat:'Pratu',spek:'ENGINE',d1:'',d2:'',d3:'',d4:''},
+    {id:genId(),group:'Ground Crew',nama:'PONDA',pangkat:'Pratu',spek:'ENGINE',d1:'',d2:'',d3:'',d4:''},
     // Tambahan baru
     {id:genId(),group:'Ground Crew',nama:'ROFIQ',pangkat:'Praka',spek:'AIRFRAME',d1:'',d2:'',d3:'',d4:''},
     {id:genId(),group:'Ground Crew',nama:'LUTFI',pangkat:'Praka',spek:'ENGINE',d1:'',d2:'',d3:'',d4:''},
@@ -988,7 +988,7 @@ function renderNavex(){
 function openNavexModal(){
   if(!isAdmin) return;
   editNavexId = null;
-  document.getElementById('nx-modal-ttl').textContent = 'Tambah Personel Navex';
+  document.getElementById('nx-modal-ttl').textContent = 'Tambah Personel';
   ['nx-nama','nx-pangkat'].forEach(id=>document.getElementById(id).value='');
   ['nx-d1','nx-d2','nx-d3','nx-d4'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('nx-group').value='Juru Mudi Udara 1';
@@ -1000,7 +1000,7 @@ function editNavexEntry(id){
   if(!isAdmin) return;
   editNavexId = id;
   const e = navexData.find(x=>x.id===id);
-  document.getElementById('nx-modal-ttl').textContent = 'Edit Personel Navex';
+  document.getElementById('nx-modal-ttl').textContent = 'Edit Personel';
   document.getElementById('nx-group').value = e.group||'Juru Mudi Udara 1';
   document.getElementById('nx-nama').value = e.nama||'';
   document.getElementById('nx-pangkat').value = e.pangkat||'';
