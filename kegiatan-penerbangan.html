@@ -327,6 +327,7 @@ body.admin .add-btn{display:inline-block;}
     <!-- TOOLBAR -->
     <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center;">
       <button class="btn btn-red admin-only" onclick="openNavexModal()">+ Tambah Personel</button>
+      <button class="btn btn-del admin-only" onclick="resetAbsensiData()">&#128260; Reset Data</button>
       <div style="margin-left:auto;display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
         <select id="nx-filter-group" onchange="renderNavex()" style="background:var(--rowodd);border:1px solid var(--border);color:var(--white);padding:5px 8px;border-radius:3px;font-size:0.78rem;">
           <option value="">Semua Kelompok</option>
@@ -838,7 +839,7 @@ function simpanStandby(){
 }
 
 // ═══════════ NAVEX ═══════════
-const KEY_NAVEX = 'kencana_navex_v1';
+const KEY_NAVEX = 'kencana_navex_v3';
 let navexData = JSON.parse(localStorage.getItem(KEY_NAVEX)||'[]');
 let editNavexId = null;
 
@@ -979,6 +980,15 @@ function editTgl(id, field, current){
   document.getElementById('inp-del-btn').style.display = current ? 'inline-flex' : 'none';
 }
 
+function resetAbsensiData(){
+  if(!isAdmin) return;
+  if(!confirm('Reset semua tanggal absensi? Data tanggal akan dikosongkan.')) return;
+  navexData.forEach(e=>{ e.d1=''; e.d2=''; e.d3=''; e.d4=''; });
+  saveAbsensi();
+  renderNavex();
+  alert('Data tanggal berhasil direset! ✅');
+}
+
 function editNama(id, current){
   if(!isAdmin) return;
   showInput('Edit Nama', current, val=>{
@@ -1096,7 +1106,7 @@ function simpanNavex(){
   };
   if(editNavexId){ const i=navexData.findIndex(e=>e.id===editNavexId); navexData[i]=entry; }
   else navexData.push(entry);
-  localStorage.setItem(KEY_NAVEX, JSON.stringify(navexData));
+  saveAbsensi();
   closeNavexModal();
   renderNavex();
 }
@@ -1105,13 +1115,38 @@ function hapusNavex(id){
   if(!isAdmin) return;
   if(!confirm('Hapus personel ini?')) return;
   navexData = navexData.filter(e=>e.id!==id);
-  localStorage.setItem(KEY_NAVEX, JSON.stringify(navexData));
+  saveAbsensi();
   renderNavex();
 }
 
+// ═══════════ ABSENSI SERVER SYNC ═══════════
+async function saveAbsensi() {
+  localStorage.setItem(KEY_NAVEX, JSON.stringify(navexData));
+  try {
+    await fetch(GAS_URL + '?type=absensi', {
+      method: 'POST', mode: 'no-cors',
+      body: JSON.stringify(navexData),
+      headers: {'Content-Type': 'application/json'}
+    });
+  } catch(e) { console.log('Absensi sync error:', e); }
+}
+
+async function loadAbsensi() {
+  try {
+    const r = await fetch(GAS_URL + '?type=absensi&t=' + Date.now());
+    const d = JSON.parse(await r.text());
+    if (Array.isArray(d) && d.length > 0) {
+      navexData = d;
+      localStorage.setItem(KEY_NAVEX, JSON.stringify(navexData));
+      renderNavex();
+    }
+  } catch(e) { console.log('Absensi load error:', e); }
+}
+
 // ═══════════ AUTO REFRESH ═══════════
-setInterval(loadServer,30000);
+setInterval(()=>{ loadServer(); loadAbsensi(); }, 30000);
 loadServer();
+loadAbsensi();
 renderStandby();
 </script>
 </body>
