@@ -1164,9 +1164,10 @@ async function loadAbsensi() {
 }
 
 // ═══════════ AUTO REFRESH ═══════════
-setInterval(()=>{ loadServer(); loadAbsensi(); }, 30000);
+setInterval(()=>{ loadServer(); loadAbsensi(); loadStandbyServer(); }, 30000);
 loadServer();
 loadAbsensi();
+loadStandbyServer();
 renderStandby();
 </script>
 </body>
